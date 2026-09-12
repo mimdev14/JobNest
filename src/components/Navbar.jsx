@@ -36,14 +36,14 @@ export default function Navbar() {
         {/* Desktop Buttons */}
         <div className="hidden items-center gap-4 md:flex">
           <Link
-            href="/signin"
+            href="/auth/login"
             className="font-medium text-gray-700 transition hover:text-blue-600"
           >
             Sign In
           </Link>
 
           <Link
-            href="/signup"
+            href="/auth/register"
             className="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white transition hover:bg-blue-700"
           >
             Get Started
@@ -110,7 +110,7 @@ export default function Navbar() {
             <hr />
 
             <Link
-              href="/signin"
+              href="/auth/login"
               onClick={() => setIsOpen(false)}
               className="font-medium text-gray-700 hover:text-blue-600"
             >
@@ -118,7 +118,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/signup"
+              href="/auth/register"
               onClick={() => setIsOpen(false)}
               className="rounded-lg bg-blue-600 py-2 text-center font-medium text-white transition hover:bg-blue-700"
             >
