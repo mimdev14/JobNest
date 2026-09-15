@@ -15,6 +15,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setError("");
 
     if (!validatePassword(form.password)) {
@@ -24,7 +25,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-           await signUp.email({ name: form.name, email: form.email, password: form.password });
+      await signUp.email({ name: form.name, email: form.email, password: form.password });
       router.push("/onboarding/role");
     } catch (err) {
       setError(err.message || "Registration failed");
