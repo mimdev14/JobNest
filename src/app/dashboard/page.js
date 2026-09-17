@@ -16,7 +16,7 @@ export default function DashboardRedirect() {
       router.replace("/auth/login?redirect=/dashboard");
       return;
     }
-    router.replace(ROLE_DASHBOARD[user?.role] || "/dashboard");
+    router.replace(ROLE_DASHBOARD[user?.role] || "/");
   }, [loading, hasSession, user]);
 
   return (
