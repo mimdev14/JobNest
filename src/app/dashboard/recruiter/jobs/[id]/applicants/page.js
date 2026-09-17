@@ -72,20 +72,12 @@ export default function ApplicantsPage() {
                 <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${stageColor[a.status]}`}>{stageLabel[a.status]}</span>
               </div>
 
-              {a.coverLetter && (
-                <p className="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-600">{a.coverLetter}</p>
-              )}
-
-              {a.resumeUrl && (
-                <a href={a.resumeUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-semibold text-blue-600 hover:underline">
-                  View Resume
-                </a>
-              )}
+              {a.coverLetter && <p className="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-600">{a.coverLetter}</p>}
+              {a.resumeUrl && <a href={a.resumeUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-semibold text-blue-600 hover:underline">View Resume</a>}
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {STAGES.filter((s) => s !== a.status).map((s) => (
-                  <button key={s} onClick={() => changeStatus(a._id, s)}
-                    className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-semibold hover:bg-gray-50">
+                  <button key={s} onClick={() => changeStatus(a._id, s)} className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-semibold hover:bg-gray-50">
                     Mark as {stageLabel[s]}
                   </button>
                 ))}
@@ -93,13 +85,10 @@ export default function ApplicantsPage() {
 
               <div className="mt-4 border-t border-gray-100 pt-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Private Notes</p>
-                {a.notes?.map((n, i) => (
-                  <p key={i} className="mt-2 text-sm text-gray-600">{n.text}</p>
-                ))}
+                {a.notes?.map((n, i) => <p key={i} className="mt-2 text-sm text-gray-600">{n.text}</p>)}
                 <div className="mt-2 flex gap-2">
                   <input value={noteDrafts[a._id] || ""} onChange={(e) => setNoteDrafts((prev) => ({ ...prev, [a._id]: e.target.value }))}
-                    placeholder="Add a private note..."
-                    className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+                    placeholder="Add a private note..." className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
                   <button onClick={() => addNote(a._id)} className="rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-black">Add</button>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -11,6 +11,8 @@ const ROLE_DASHBOARD = { SEEKER: "/dashboard/seeker", RECRUITER: "/dashboard/rec
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const router = useRouter();
   const { data: session } = useSession();
   const { user } = useCurrentUser();
@@ -21,6 +23,14 @@ export default function Navbar() {
     { name: "Pricing", href: "/pricing" },
   ];
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLogout = async () => {
     await apiFetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     await signOut();
@@ -28,6 +38,7 @@ export default function Navbar() {
   };
 
   const dashboardHref = user ? ROLE_DASHBOARD[user.role] || "/" : "/";
+  const initial = session?.user?.name?.[0]?.toUpperCase() || "U";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
@@ -44,17 +55,28 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-4 md:flex">
           {session?.user ? (
-            <>
-              <Link href={dashboardHref} className="font-medium text-gray-700 transition hover:text-blue-600">
-                Dashboard
-              </Link>
-              {user?.role === "ADMIN" && (
-                <span className="rounded-full bg-gray-900 px-3 py-1 text-xs font-semibold text-white">ADMIN</span>
-              )}
-              <button onClick={handleLogout} className="rounded-lg px-4 py-2 font-medium text-gray-500 transition hover:bg-red-50 hover:text-red-500">
-                Logout
+            <div className="relative" ref={dropdownRef}>
+              <button onClick={() => setDropdownOpen((o) => !o)} className="flex items-center gap-2 rounded-full border border-gray-200 py-1 pl-1 pr-3 transition hover:border-blue-200">
+                {session.user.image ? (
+                  <img src={session.user.image} alt={session.user.name} className="h-8 w-8 rounded-full object-cover" />
+                ) : (
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">{initial}</div>
+                )}
+                <span className="max-w-[100px] truncate text-sm font-medium text-gray-700">{session.user.name}</span>
+                {user?.role === "ADMIN" && <span className="rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-semibold text-white">ADMIN</span>}
               </button>
-            </>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-2 shadow-lg">
+                  <Link href={dashboardHref} onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    Dashboard
+                  </Link>
+                  <button onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-50">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link href="/auth/login" className="font-medium text-gray-700 transition hover:text-blue-600">Sign In</Link>
