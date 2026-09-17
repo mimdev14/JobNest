@@ -7,8 +7,6 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { useCurrentUser } from "@/lib/useCurrentUser";
 import { apiFetch } from "@/lib/api";
 
-const ROLE_DASHBOARD = { SEEKER: "/dashboard/seeker", RECRUITER: "/dashboard/recruiter", ADMIN: "/dashboard/admin" };
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -37,7 +35,6 @@ export default function Navbar() {
     router.push("/");
   };
 
-  const dashboardHref = user ? ROLE_DASHBOARD[user.role] || "/" : "/";
   const initial = session?.user?.name?.[0]?.toUpperCase() || "U";
 
   return (
@@ -68,7 +65,7 @@ export default function Navbar() {
 
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-2 shadow-lg">
-                  <Link href={dashboardHref} onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                     Dashboard
                   </Link>
                   <button onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-50">
@@ -108,7 +105,7 @@ export default function Navbar() {
             ))}
             {session?.user ? (
               <>
-                <Link href={dashboardHref} onClick={() => setIsOpen(false)} className="font-medium text-gray-700">Dashboard</Link>
+                <Link href="/dashboard" onClick={() => setIsOpen(false)} className="font-medium text-gray-700">Dashboard</Link>
                 <button onClick={handleLogout} className="text-left font-medium text-red-500">Logout</button>
               </>
             ) : (
