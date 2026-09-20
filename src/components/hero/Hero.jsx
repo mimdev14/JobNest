@@ -1,6 +1,6 @@
 import BackgroundEffects from "./BackgroundEffects";
 import SearchBar from "./SearchBar";
-import StatsSection from "./StatsSection";
+
 
 export default function Hero() {
   return (
@@ -36,7 +36,7 @@ export default function Hero() {
         <SearchBar />
 
         {/* Stats */}
-        <StatsSection />
+      
       </div>
 
       {/* Bottom Fade */}
