@@ -27,7 +27,7 @@ export default function SearchBar() {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             placeholder="Job title, skill or company"
-            className="w-full bg-transparent text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                      className="w-full bg-transparent text-gray-800 placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 rounded-lg"
           />
         </div>
 
@@ -40,11 +40,11 @@ export default function SearchBar() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Location or Remote"
-            className="w-full bg-transparent text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                        className="w-full bg-transparent text-gray-800 placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 rounded-lg"
           />
         </div>
 
-        <button type="submit" className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition duration-300 hover:bg-blue-700 hover:shadow-lg">
+               <button type="submit" className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 active:translate-y-0">
           Search Jobs
         </button>
       </form>
