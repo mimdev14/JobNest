@@ -3,12 +3,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/api";
+import { SEEKER_PLANS as PLANS } from "@/lib/constants";
 
-const PLANS = [
-  { key: "free", name: "Free", price: 0, features: ["3 applications/month", "10 saved jobs", "Basic profile"] },
-  { key: "pro", name: "Pro", price: 19, features: ["30 applications/month", "Unlimited saved jobs", "Application tracking", "Salary insights"] },
-  { key: "premium", name: "Premium", price: 39, features: ["Unlimited applications", "Profile boost", "Early job access", "Priority support"] },
-];
+
 
 export default function SeekerBillingPage() {
   const [currentPlan, setCurrentPlan] = useState("free");

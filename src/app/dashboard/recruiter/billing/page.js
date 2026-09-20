@@ -3,12 +3,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/api";
+import { RECRUITER_PLANS as PLANS } from "@/lib/constants";
 
-const PLANS = [
-  { key: "free", name: "Free", price: 0, features: ["3 active jobs", "Basic applicant management"] },
-  { key: "growth", name: "Growth", price: 49, features: ["10 active jobs", "Applicant tracking", "Basic analytics"] },
-  { key: "enterprise", name: "Enterprise", price: 149, features: ["50 active jobs", "Advanced analytics", "Featured listings", "Team collaboration", "Custom branding"] },
-];
+
 
 export default function RecruiterBillingPage() {
   const [currentPlan, setCurrentPlan] = useState("free");
