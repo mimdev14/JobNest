@@ -1,26 +1,38 @@
-const STEPS = [
-  { title: "Create your profile", desc: "Sign up and build a profile that highlights your skills and experience." },
-  { title: "Discover opportunities", desc: "Search and filter thousands of jobs tailored to what you're looking for." },
-  { title: "Apply with confidence", desc: "Submit applications, track their status, and get hired faster." },
-];
+"use client";
 
-export default function HowItWorks() {
+import { useEffect, useState } from "react";
+import { Briefcase, Building2, Users, BadgeCheck } from "lucide-react";
+import { apiFetch } from "@/lib/api";
+
+export default function PlatformStats() {
+  const [stats, setStats] = useState({ activeJobs: 0, companies: 0, seekers: 0, hires: 0 });
+
+  useEffect(() => {
+    apiFetch("/api/stats/public").then((d) => setStats(d.stats)).catch(() => {});
+  }, []);
+
+  const items = [
+    { Icon: Briefcase, label: "Active Jobs", value: stats.activeJobs },
+    { Icon: Building2, label: "Registered Companies", value: stats.companies },
+    { Icon: Users, label: "Job Seekers", value: stats.seekers },
+    { Icon: BadgeCheck, label: "Jobs Filled", value: stats.hires },
+  ];
+
   return (
-    <section className="bg-gray-50 py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">Simple Process</p>
-          <h2 className="mt-2 text-3xl font-bold text-gray-900">How JobNest Works</h2>
-        </div>
-        <div className="mt-12 grid gap-8 sm:grid-cols-3">
-          {STEPS.map((s, i) => (
-            <div key={s.title} className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">{i + 1}</div>
-              <h3 className="mt-4 font-semibold text-gray-900">{s.title}</h3>
-              <p className="mt-2 text-sm text-gray-500">{s.desc}</p>
+    <section className="relative -mt-16 pb-20">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-5 px-6 lg:grid-cols-4">
+        {items.map(({ Icon, label, value }) => (
+          <div
+            key={label}
+            className="rounded-2xl border border-gray-100 bg-white p-6 shadow-lg shadow-gray-200/50 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
+              <Icon className="h-5 w-5 text-blue-600" strokeWidth={2} />
             </div>
-          ))}
-        </div>
+            <p className="mt-4 text-3xl font-bold text-gray-900">{value.toLocaleString()}+</p>
+            <p className="mt-1 text-sm text-gray-500">{label}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
