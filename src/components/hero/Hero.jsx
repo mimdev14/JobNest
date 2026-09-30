@@ -1,6 +1,7 @@
 import BackgroundEffects from "./BackgroundEffects";
 import SearchBar from "./SearchBar";
-import PlatformStats from "@/components/home/PlatformStats";
+
+import PlatformFeatures from "@/components/home/PlatformFeatures";
 
 
 export default function Hero() {
@@ -37,8 +38,9 @@ export default function Hero() {
         <SearchBar />
 
         {/* Stats */}
-        <PlatformStats />
+        
       </div>
+      <PlatformFeatures />
 
       {/* Bottom Fade */}
       <div className="absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-white to-transparent" />
