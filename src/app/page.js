@@ -1,6 +1,5 @@
 import Hero from "@/components/hero/Hero";
-import Image from "next/image";
-import PlatformStats from "@/components/home/PlatformStats";
+
 import FeaturedJobs from "@/components/home/FeaturedJobs";
 import FeaturedCompanies from "@/components/home/FeaturedCompanies";
 import PlatformFeatures from "@/components/home/PlatformFeatures";
