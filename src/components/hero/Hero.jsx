@@ -1,5 +1,6 @@
 import BackgroundEffects from "./BackgroundEffects";
 import SearchBar from "./SearchBar";
+import PlatformStats from "@/components/home/PlatformStats";
 
 
 export default function Hero() {
@@ -36,7 +37,7 @@ export default function Hero() {
         <SearchBar />
 
         {/* Stats */}
-      
+        <PlatformStats />
       </div>
 
       {/* Bottom Fade */}
