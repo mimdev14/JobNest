@@ -60,22 +60,24 @@ Most job boards solve only one half of the hiring problem: either helping seeker
 | Icons | Lucide React |
 
 ## 6. Architecture
-        JobNest
-           |
-           ┌───────────┴───────────┐
-↓ ↓
-Next.js Client Express API Server
-| |
-Better Auth Custom JWT issuance
-(session cookie) + RBAC middleware
-| |
-| Stripe webhooks
-| |
-└───────────┬───────────┘
-↓
-MongoDB
 
-Auth is split deliberately: Better Auth runs inside the Next.js app (handles login/session/social auth), while the Express server issues its own JWT after verifying the Better Auth session once, via a `/api/auth/sync` call made directly from the browser to the server's own domain — this keeps the `jobnest_token` cookie correctly scoped to the server's domain for all subsequent API calls.
+```mermaid
+flowchart TB
+    Client["Next.js Client<br/>(React, Tailwind, Better Auth)"]
+    Server["Express API Server<br/>(JWT issuance, RBAC middleware)"]
+    DB[("MongoDB Atlas")]
+    Stripe["Stripe<br/>(Checkout + Webhooks)"]
+
+    Client -- "Login / session (Better Auth)" --> Client
+    Client -- "POST /api/auth/sync" --> Server
+    Server -- "Set jobnest_token (HTTP-only cookie)" --> Client
+    Client -- "API requests + cookie" --> Server
+    Server -- "Read / write" --> DB
+    Server -- "Create checkout session" --> Stripe
+    Stripe -- "Webhook events" --> Server
+```
+
+Auth is deliberately split across two systems: **Better Auth** runs inside the Next.js app and owns login, sessions, and social sign-in. Once a session exists, the client calls the Express server's `/api/auth/sync` **directly** (not proxied through Next.js) so the server can verify that session, issue its own JWT, and set it as an HTTP-only cookie scoped to the server's own domain. Every protected API route then authenticates via that JWT and enforces role-based access through server-side middleware — not just hidden UI.
 
 ## 7. Database Structure
 
