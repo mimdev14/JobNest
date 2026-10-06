@@ -1,7 +1,7 @@
 # JobNest — Full-Stack Recruitment & Job Marketplace Platform
 
 <!-- Replace this with a real screenshot of your home page -->
-![JobNest Home Page](./screenshots/home.png)
+![JobNest Home Page](./screenshots/home.jpg)
 
 **Live Site:** https://job-nest-rosy.vercel.app
 **Client Repo:** https://github.com/mimdev14/JobNest
