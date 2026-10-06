@@ -61,23 +61,22 @@ Most job boards solve only one half of the hiring problem: either helping seeker
 
 ## 6. Architecture
 
-```mermaid
-flowchart TB
-    Client["Next.js Client<br/>(React, Tailwind, Better Auth)"]
-    Server["Express API Server<br/>(JWT issuance, RBAC middleware)"]
-    DB[("MongoDB Atlas")]
-    Stripe["Stripe<br/>(Checkout + Webhooks)"]
+**Client (Next.js)**
+- Hosts Better Auth — handles login, session, Google OAuth
+- Calls Express server directly for all app data and for JWT issuance
 
-    Client -- "Login / session (Better Auth)" --> Client
-    Client -- "POST /api/auth/sync" --> Server
-    Server -- "Set jobnest_token (HTTP-only cookie)" --> Client
-    Client -- "API requests + cookie" --> Server
-    Server -- "Read / write" --> DB
-    Server -- "Create checkout session" --> Stripe
-    Stripe -- "Webhook events" --> Server
-```
+**Server (Express)**
+- Verifies the Better Auth session once via `/api/auth/sync`
+- Issues its own JWT, stored as an HTTP-only cookie on the server's domain
+- Every protected route: `authenticateUser` (verify JWT) → `requireRole(...)` (RBAC) → handler
+- Talks to MongoDB Atlas for all reads/writes
+- Talks to Stripe for Checkout sessions, and receives signed webhook events back
 
-Auth is deliberately split across two systems: **Better Auth** runs inside the Next.js app and owns login, sessions, and social sign-in. Once a session exists, the client calls the Express server's `/api/auth/sync` **directly** (not proxied through Next.js) so the server can verify that session, issue its own JWT, and set it as an HTTP-only cookie scoped to the server's own domain. Every protected API route then authenticates via that JWT and enforces role-based access through server-side middleware — not just hidden UI.
+**Flow for a protected action (e.g. posting a job):**
+1. Client sends request with `jobnest_token` cookie attached
+2. Server verifies the JWT → confirms user is `RECRUITER`
+3. Server checks company approval + subscription plan limits
+4. Server writes to MongoDB, returns the result
 
 ## 7. Database Structure
 
