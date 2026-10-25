@@ -94,6 +94,7 @@ Key relationships:
 3. The server creates/updates the user record, issues a JWT, and sets it as an HTTP-only, secure cookie scoped to the server's own domain
 4. Every protected API route verifies this JWT via `authenticateUser` middleware, then checks role via `requireRole(...)` for RBAC enforcement
 
+
 ## 9. API Overview
 
 | Route | Purpose |
