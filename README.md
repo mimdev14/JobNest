@@ -4,7 +4,9 @@
 ![JobNest Home Page](./screenshots/home.png)
 
 **Live Site:** https://job-nest-rosy.vercel.app
+
 **Client Repo:** https://github.com/mimdev14/JobNest
+
 **Server Live API:** https://jobnes-server.vercel.app
 
 ---
